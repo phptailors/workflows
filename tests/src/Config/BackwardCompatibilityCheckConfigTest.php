@@ -2,15 +2,18 @@
 
 namespace Tailors\Console\Workflows\Config;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Tailors\PHPUnit\KsortedArrayIdenticalToTrait;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+use Tailors\PHPUnit\RecursivelyKsortedArrayIdenticalToTrait;
 
+#[CoversClass(BackwardCompatibilityCheckConfig::class)]
+#[CoversClass(BackwardCompatibilityCheckConfigTest::class)]
 final class BackwardCompatibilityCheckConfigTest extends TestCase
 {
-    use KsortedArrayIdenticalToTrait;
+    use RecursivelyKsortedArrayIdenticalToTrait;
 
     /**
      * @param array $inputs
@@ -22,7 +25,7 @@ final class BackwardCompatibilityCheckConfigTest extends TestCase
         $processor = new Processor();
         $config = new BackwardCompatibilityCheckConfig();
         $processedConfig = $processor->processConfiguration($config, $inputs);
-        $this->assertKsortedArrayIdenticalTo($expect, $processedConfig);
+        $this->assertRecursivelyKsortedArrayIdenticalTo($expect, $processedConfig);
     }
 
     /**
@@ -54,68 +57,68 @@ final class BackwardCompatibilityCheckConfigTest extends TestCase
             'arguments' => [],
         ];
 
-        yield [
+        yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [[]],
             'expect' => \array_merge($defaults, [])
         ];
 
-        yield [
+        yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [[]],
             'expect' => $defaults,
         ];
 
 
-        yield [
+        yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['script' => 'FOO']],
             'expect' => \array_merge($defaults, ['script' => 'FOO'])
         ];
 
-        yield [
+        yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['script' => 'FOO'], ['script' => 'BAR']],
             'expect' => \array_merge($defaults, ['script' => 'BAR'])
         ];
 
-        yield [
+        yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['command' => 'roave-backwards-compatibility-check:assert-backwards-compatible']],
             'expect' => \array_merge($defaults, ['command' => 'roave-backwards-compatibility-check:assert-backwards-compatible'])
         ];
 
-        yield [
+        yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => []]],
             'expect' => $defaults,
         ];
 
-        yield [
+        yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => []]],
             'expect' => $defaults,
         ];
 
-        yield [
+        yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['no_interactions' => true]]],
             'expect' => \array_replace_recursive($defaults, ['options' => ['no_interactions' => true]]),
         ];
 
-        yield [
+        yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['no_interactions' => false]]],
             'expect' => \array_replace_recursive($defaults, ['options' => ['no_interactions' => false]]),
         ];
 
-        yield [
+        yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['ansi' => true]]],
             'expect' => \array_replace_recursive($defaults, ['options' => ['ansi' => true]]),
         ];
 
-        yield [
+        yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['ansi' => false]]],
             'expect' => \array_replace_recursive($defaults, ['options' => ['ansi' => false]]),
         ];
 
-        yield [
+        yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['from' => 'FOO']]],
             'expect' => \array_replace_recursive($defaults, ['options' => ['from' => 'FOO']]),
         ];
 
-        yield [
+        yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['to' => 'FOO']]],
             'expect' => \array_replace_recursive($defaults, ['options' => ['to' => 'FOO']]),
         ];
@@ -131,12 +134,12 @@ final class BackwardCompatibilityCheckConfigTest extends TestCase
      */
     public static function provideWithInvalidConfig(): iterable
     {
-        yield [
+        yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['script' => null]],
             'expect' => '/"backward_compatibility_check.script" cannot contain an empty value/'
         ];
 
-        yield [
+        yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['command' => 'FOO']],
             'expect' => '/"FOO" is not allowed for path "backward_compatibility_check.command"/'
         ];
