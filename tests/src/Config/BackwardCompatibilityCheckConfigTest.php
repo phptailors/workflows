@@ -104,6 +104,11 @@ final class BackwardCompatibilityCheckConfigTest extends TestCase
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['options' => ['ansi' => null]]],
+            'expect' => \array_replace_recursive($defaults, ['options' => ['ansi' => true]]),
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['ansi' => true]]],
             'expect' => \array_replace_recursive($defaults, ['options' => ['ansi' => true]]),
         ];
@@ -114,8 +119,18 @@ final class BackwardCompatibilityCheckConfigTest extends TestCase
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['options' => ['from' => null]]],
+            'expect' => \array_replace_recursive($defaults, ['options' => ['from' => '']]),
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['from' => 'FOO']]],
             'expect' => \array_replace_recursive($defaults, ['options' => ['from' => 'FOO']]),
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['options' => ['to' => null]]],
+            'expect' => \array_replace_recursive($defaults, ['options' => ['to' => '']]),
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
@@ -123,10 +138,40 @@ final class BackwardCompatibilityCheckConfigTest extends TestCase
             'expect' => \array_replace_recursive($defaults, ['options' => ['to' => 'FOO']]),
         ];
 
-//              ->stringNode('from')->end() // null
-//              ->stringNode('to')->end() // null
-//              ->booleanNode('install_development_dependencies')->end() // null
-//              ->enumNode('format')->values(['console', 'markdown', 'github-actions'])->end() // null
+        yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['options' => ['install_development_dependencies' => null]]],
+            'expect' => \array_replace_recursive($defaults, ['options' => ['install_development_dependencies' => true]]),
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['options' => ['install_development_dependencies' => true]]],
+            'expect' => \array_replace_recursive($defaults, ['options' => ['install_development_dependencies' => true]]),
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['options' => ['install_development_dependencies' => false]]],
+            'expect' => \array_replace_recursive($defaults, ['options' => ['install_development_dependencies' => false]]),
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['options' => ['format' => 'console']]],
+            'expect' => \array_replace_recursive($defaults, ['options' => ['format' => 'console']]),
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['options' => ['format' => 'markdown']]],
+            'expect' => \array_replace_recursive($defaults, ['options' => ['format' => 'markdown']]),
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['options' => ['format' => 'github-actions']]],
+            'expect' => \array_replace_recursive($defaults, ['options' => ['format' => 'github-actions']]),
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['options' => ['format' => 'github-actions']]],
+            'expect' => \array_replace_recursive($defaults, ['options' => ['format' => 'github-actions']]),
+        ];
     }
 
     /**
@@ -136,12 +181,52 @@ final class BackwardCompatibilityCheckConfigTest extends TestCase
     {
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['script' => null]],
-            'expect' => '/"backward_compatibility_check.script" cannot contain an empty value/'
+            'expect' => '/"backward_compatibility_check\.script" cannot contain an empty value/'
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['command' => null]],
+            'expect' => '/The value of type "null" is not allowed for path "backward_compatibility_check\.command"/'
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['command' => 'FOO']],
-            'expect' => '/"FOO" is not allowed for path "backward_compatibility_check.command"/'
+            'expect' => '/The value "FOO" is not allowed for path "backward_compatibility_check\.command"/'
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['options' => ['inexistent_option' => null]]],
+            'expect' => '/Unrecognized option "inexistent_option" under "backward_compatibility_check\.options"\./'
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['options' => ['no_interactions' => 'FOO']]],
+            'expect' => '/Invalid type for path "backward_compatibility_check\.options\.no_interactions"\. Expected "bool", but got "string"/'
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['options' => ['ansi' => 'FOO']]],
+            'expect' => '/Invalid type for path "backward_compatibility_check\.options\.ansi"\. Expected "bool", but got "string"\./'
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['options' => ['from' => 123]]],
+            'expect' => '/Invalid type for path "backward_compatibility_check\.options\.from"\. Expected "string", but got "int"\./'
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['options' => ['to' => 123]]],
+            'expect' => '/Invalid type for path "backward_compatibility_check\.options\.to"\. Expected "string", but got "int"\./'
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['options' => ['install_development_dependencies' => 123]]],
+            'expect' => '/Invalid type for path "backward_compatibility_check\.options\.install_development_dependencies"\. Expected "bool", but got "int"\./'
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['options' => ['format' => 123]]],
+            'expect' => '/The value 123 is not allowed for path "backward_compatibility_check\.options\.format"\./'
         ];
     }
 }
