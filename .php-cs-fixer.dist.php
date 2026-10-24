@@ -1,5 +1,13 @@
 <?php declare(strict_types=1);
 
+$header = <<<'EOF'
+This file is part of phptailors/workflows.
+
+Copyright (c) Paweł Tomulik <pawel@tomulik.pl>
+
+View the LICENSE file for full copyright and license information.
+EOF;
+
 $finder = PhpCsFixer\Finder::create()
     ->files()
     ->in(__DIR__ . '/src')
@@ -16,10 +24,14 @@ return $config
         '@PhpCsFixer' => true,
         'blank_line_after_opening_tag' => false,
         'linebreak_after_opening_tag' => false,
+        'header_comment' => [
+            'header' => $header,
+            'location' => 'after_declare_strict',
+        ],
         'array_syntax' => ['syntax' => 'short'],
         'binary_operator_spaces' => [
             'operators' => [
-                '=>' => 'align_single_space_minimal',
+                '=>' => 'align_single_space_minimal_by_scope',
                 '='  => 'single_space'
             ],
         ],
@@ -31,6 +43,34 @@ return $config
             'imports_order' => ['const', 'class', 'function'],
             'sort_algorithm' => 'alpha',
         ],
+        'phpdoc_align' => [
+            'tags' => [
+                'method', 'phpstan-method', 'psalm-method',
+                'param', 'phpstan-param', 'psalm-param',
+                'property', 'phpstan-property', 'psalm-property',
+                'return', 'phpstan-return', 'psalm-return',
+                'throws', 'phpstan-throws', 'psalm-throws',
+                'type', 'phpstan-type', 'psalm-type',
+                'var', 'phpstan-var', 'psalm-var',
+            ],
+        ],
+        'phpdoc_order' => [
+            'order' => [
+                'param', 'param-out', 'return', 'throws',
+                'phpstan-param', 'phpstan-return', 'phpstan-throws',
+                'psalm-param', 'psalm-param-out', 'psalm-return', 'psalm-throws',
+            ],
+        ],
+
+        // 2026-03-20: php-cs-fixed changed the @PhPCsFixer rulesets
+        // significantly between 3.54 and 3.94; for now we're disabling the
+        // following rules to avoid huge code reformatting being made by the
+        // new version of php-cs-fixer.
+        'operator_linebreak' => false,
+        'php_unit_data_provider_method_order' => false,
+        'fully_qualified_strict_types' => false,
+        'new_with_parentheses' => false,
+        'string_implicit_backslashes' => false,
     ])
 ;
 // vim: syntax=php sw=4 ts=4 et:

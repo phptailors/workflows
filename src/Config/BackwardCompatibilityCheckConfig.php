@@ -1,9 +1,17 @@
 <?php declare(strict_types=1);
 
+/*
+ * This file is part of phptailors/workflows.
+ *
+ * Copyright (c) Paweł Tomulik <pawel@tomulik.pl>
+ *
+ * View the LICENSE file for full copyright and license information.
+ */
+
 namespace Tailors\Console\Workflows\Config;
 
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
 final class BackwardCompatibilityCheckConfig extends AbstractScriptConfig
 {
@@ -18,7 +26,7 @@ final class BackwardCompatibilityCheckConfig extends AbstractScriptConfig
     protected function getSupportedScriptCommands(): array
     {
         return [
-            'roave-backwards-compatibility-check:assert-backwards-compatible'
+            'roave-backwards-compatibility-check:assert-backwards-compatible',
         ];
     }
 
@@ -28,19 +36,16 @@ final class BackwardCompatibilityCheckConfig extends AbstractScriptConfig
 
         $rootNode = $treeBuilder->getRootNode();
 
-        $node = $rootNode
+        return $rootNode
             ->addDefaultsIfNotSet()
             ->children()
-              ->booleanNode('no_interactions')->defaultTrue()->end() // true
-              ->booleanNode('ansi')->defaultTrue()->end() // true
-              ->stringNode('from')->end() // null
-              ->stringNode('to')->end() // null
-              ->booleanNode('install_development_dependencies')->end() // null
-              ->enumNode('format')->values(['console', 'markdown', 'github-actions'])->end() // null
+            ->booleanNode('no_interactions')->defaultTrue()->end()
+            ->booleanNode('ansi')->defaultTrue()->end()
+            ->stringNode('from')->end()
+            ->stringNode('to')->end()
+            ->booleanNode('install_development_dependencies')->end()
+            ->enumNode('format')->values(['console', 'markdown', 'github-actions'])->end()
             ->end()
         ;
-
-        return $node;
     }
 }
-

@@ -1,5 +1,13 @@
 <?php declare(strict_types=1);
 
+/*
+ * This file is part of phptailors/workflows.
+ *
+ * Copyright (c) Paweł Tomulik <pawel@tomulik.pl>
+ *
+ * View the LICENSE file for full copyright and license information.
+ */
+
 namespace Tailors\Console\Workflows;
 
 use Composer\InstalledVersions;
@@ -28,27 +36,27 @@ final class Config
             'composer-bin-subdir' => 'backward-compatibility-check',
             'options'             => [],
         ],
-        'composer-require-checker' => [
+        'composer-require-checker'     => [
             'bin-name'            => 'composer-require-checker',
             'composer-bin-subdir' => 'composer-require-checker',
             'options'             => ['check', '--ansi'],
         ],
-        'php-cs-fixer' => [
+        'php-cs-fixer'                 => [
             'bin-name'            => 'php-cs-fixer',
             'composer-bin-subdir' => 'php-cs-fixer',
             'options'             => ['fix', '--diff', '--dry-run', '--show-progress=dots', '--using-cache=no', '--verbose', '--ansi'],
         ],
-        'phpunit' => [
+        'phpunit'                      => [
             'bin-name'            => 'phpunit',
             'composer-bin-subdir' => 'phpunit',
             'options'             => [],
         ],
-        'psalm' => [
+        'psalm'                        => [
             'bin-name'            => 'psalm',
             'composer-bin-subdir' => 'psalm',
             'options'             => ['--no-cache', '--no-progress', '--php-version='.(PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION), '--shepherd', '--show-info=true', '--stats'],
         ],
-        'rector' => [
+        'rector'                       => [
             'bin-name'            => 'rector',
             'composer-bin-subdir' => 'rector',
             'options'             => ['process', '--dry-run'],
@@ -211,9 +219,9 @@ final class Config
     /**
      * @param array<string,array> $defaults
      *
-     * @psalm-param array<string, array{options: string[], ...}> $defaults
-     *
      * @return string[]
+     *
+     * @psalm-param array<string, array{options: string[], ...}> $defaults
      */
     private static function getDefaultOptions(string $name, array $defaults): array
     {
