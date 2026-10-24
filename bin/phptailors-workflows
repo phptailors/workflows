@@ -12,13 +12,13 @@ use Symfony\Component\Console\Exception\LogicException;
 use Symfony\Component\PropertyAccess\Exception\AccessException;
 use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
 use Symfony\Component\PropertyAccess\Exception\UnexpectedTypeException;
-use Tailors\Console\Workflows\BackwardCompatibilityCheckCommand;
-use Tailors\Console\Workflows\ComposerRequireCheckerCommand;
-use Tailors\Console\Workflows\PhpCsFixerCommand;
-use Tailors\Console\Workflows\PhpunitCommand;
-use Tailors\Console\Workflows\PsalmCommand;
-use Tailors\Console\Workflows\RectorCommand;
-use Tailors\Console\Workflows\RunAllCommand;
+use Tailors\Console\Workflows\Command\BackwardCompatibilityCheckCommand;
+use Tailors\Console\Workflows\Command\ComposerRequireCheckerCommand;
+use Tailors\Console\Workflows\Command\PhpCsFixerCommand;
+use Tailors\Console\Workflows\Command\PhpunitCommand;
+use Tailors\Console\Workflows\Command\PsalmCommand;
+use Tailors\Console\Workflows\Command\RectorCommand;
+use Tailors\Console\Workflows\Command\RunAllCommand;
 
 /**
  * @throws \Exception

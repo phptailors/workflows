@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tailors\Console\Workflows;
+namespace Tailors\Console\Workflows\Command;
 
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -11,12 +11,14 @@ use Symfony\Component\Process\Exception\RuntimeException;
 use Symfony\Component\PropertyAccess\Exception\AccessException;
 use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
 use Symfony\Component\PropertyAccess\Exception\UnexpectedTypeException;
+use Tailors\Console\Workflows\Config;
+use Tailors\Console\Workflows\Runner;
 
 #[AsCommand(
-    name: 'run:backward-compatibility-check',
-    description: 'Run backward-compatibility-check'
+    name: 'run:psalm',
+    description: 'Run psalm',
 )]
-final class BackwardCompatibilityCheckCommand extends Command
+final class PsalmCommand extends Command
 {
     /**
      * @throws LogicException
@@ -43,6 +45,6 @@ final class BackwardCompatibilityCheckCommand extends Command
         $config = Config::create();
         $runner = new Runner($output, printCommands: true);
 
-        return $runner->runPhpScript($config->backwardCompatibilityCheckPath, $config->backwardCompatibilityCheckOptions);
+        return $runner->runPhpScript($config->psalmPath, $config->psalmOptions);
     }
 }

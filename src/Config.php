@@ -129,7 +129,7 @@ final class Config
 
         $rootPackageName ??= $rootPackage['name'];
         $hasComposerBinPlugin ??= InstalledVersions::isInstalled('bamarni/composer-bin-plugin');
-        if (null == $composerBinTargetDirectory) {
+        if (null === $composerBinTargetDirectory) {
             $jsonPath = '[extra][bamarni-bin][target-directory]';
             if ($accessor->isReadable($rootComposerJson, $jsonPath)) {
                 /** @var mixed */

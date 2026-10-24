@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tailors\Console\Workflows;
+namespace Tailors\Console\Workflows\Command;
 
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -11,12 +11,14 @@ use Symfony\Component\Process\Exception\RuntimeException;
 use Symfony\Component\PropertyAccess\Exception\AccessException;
 use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
 use Symfony\Component\PropertyAccess\Exception\UnexpectedTypeException;
+use Tailors\Console\Workflows\Config;
+use Tailors\Console\Workflows\Runner;
 
 #[AsCommand(
-    name: 'run:all',
-    description: 'Run all checks'
+    name: 'run:phpunit',
+    description: 'Run PHPUnit',
 )]
-final class RunAllCommand extends Command
+final class PhpunitCommand extends Command
 {
     /**
      * @throws LogicException
@@ -43,18 +45,6 @@ final class RunAllCommand extends Command
         $config = Config::create();
         $runner = new Runner($output, printCommands: true);
 
-        $status = [];
-
-        $status[] = $runner->runPhpScript($config->backwardCompatibilityCheckPath, $config->backwardCompatibilityCheckOptions);
-        $status[] = $runner->runPhpScript($config->composerRequireCheckerPath, $config->composerRequireCheckerOptions);
-        $status[] = $runner->runPhpScript($config->phpCsFixerPath, $config->phpCsFixerOptions);
-        $status[] = $runner->runPhpScript($config->phpunitPath, $config->phpunitOptions);
-        $status[] = $runner->runPhpScript($config->psalmPath, $config->psalmOptions);
-
-        if (count(\array_filter($status, fn (int $value): bool => 0 != $value)) > 0) {
-            return Command::FAILURE;
-        }
-
-        return Command::SUCCESS;
+        return $runner->runPhpScript($config->phpunitPath, $config->phpunitOptions);
     }
 }
