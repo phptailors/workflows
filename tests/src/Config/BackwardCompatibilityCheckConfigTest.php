@@ -186,7 +186,7 @@ final class BackwardCompatibilityCheckConfigTest extends TestCase
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['command' => null]],
-            'expect' => '/The value of type "null" is not allowed for path "backward_compatibility_check\.command"/'
+            'expect' => '/The value (of type "null"|null) is not allowed for path "backward_compatibility_check\.command"/'
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
