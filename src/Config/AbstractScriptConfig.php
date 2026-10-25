@@ -36,7 +36,7 @@ abstract class AbstractScriptConfig implements ConfigurationInterface
 
     abstract protected function getRootNodeName(): string;
 
-    abstract protected function getOptionsNode(): ArrayNodeDefinition;
+    abstract protected function getOptionsDefinition(string $rootName): ArrayNodeDefinition;
 
     /**
      * @param ArrayNodeDefinition $rootNode
@@ -45,17 +45,17 @@ abstract class AbstractScriptConfig implements ConfigurationInterface
     {
         $rootNode
             ->children()
-            ->stringNode('script')
-            ->cannotBeEmpty()
-            ->defaultValue($this->getDefaultScriptName())
-            ->end()
-            ->enumNode('command')
-            ->values($this->getSupportedScriptCommands())
-            ->end()
-            ->append($this->getOptionsNode())
-            ->arrayNode('arguments', 'argument')
-            ->stringPrototype()->end()
-            ->end()
+                ->stringNode('script')
+                    ->cannotBeEmpty()
+                    ->defaultValue($this->getDefaultScriptName())
+                ->end()
+                ->enumNode('command')
+                    ->values($this->getSupportedScriptCommands())
+                ->end()
+                ->append($this->getOptionsDefinition('options'))
+                ->arrayNode('arguments', 'argument')
+                    ->stringPrototype()->end()
+                ->end()
             ->end()
         ;
     }

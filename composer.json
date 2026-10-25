@@ -34,7 +34,10 @@
     "autoload-dev": {
         "psr-4": {
             "Tailors\\Console\\Workflows\\": "tests/src/"
-        }
+        },
+        "files": [
+            "tests/functions.php"
+        ]
     },
     "bin": [
         "bin/phptailors-workflows"

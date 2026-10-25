@@ -11,10 +11,17 @@
 namespace Tailors\Console\Workflows\Config;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
 final class BackwardCompatibilityCheckConfig extends AbstractScriptConfig
 {
+    use SymfonyOptionsDefinitionTrait;
+
+    private static array $supportedScriptCommands = [
+        'roave-backwards-compatibility-check:assert-backwards-compatible' => 'assert_backwards_compatible',
+    ];
+
     protected function getDefaultScriptName(): string
     {
         return 'roave-backward-compatibility-check';
@@ -25,9 +32,7 @@ final class BackwardCompatibilityCheckConfig extends AbstractScriptConfig
      */
     protected function getSupportedScriptCommands(): array
     {
-        return [
-            'roave-backwards-compatibility-check:assert-backwards-compatible',
-        ];
+        return array_keys(self::$supportedScriptCommands);
     }
 
     protected function getRootNodeName(): string
@@ -35,22 +40,46 @@ final class BackwardCompatibilityCheckConfig extends AbstractScriptConfig
         return 'backward_compatibility_check';
     }
 
-    protected function getOptionsNode(): ArrayNodeDefinition
+    protected function getOptionsDefinition(string $rootName): ArrayNodeDefinition
     {
-        $treeBuilder = new TreeBuilder('options');
+        $treeBuilder = new TreeBuilder($rootName);
 
         $rootNode = $treeBuilder->getRootNode();
+
+        $commandRoot = self::$supportedScriptCommands['roave-backwards-compatibility-check:assert-backwards-compatible'];
 
         return $rootNode
             ->addDefaultsIfNotSet()
             ->children()
-                ->booleanNode('no_interactions')->defaultTrue()->end()
-                ->booleanNode('ansi')->defaultTrue()->end()
-                ->stringNode('from')->end()
-                ->stringNode('to')->end()
-                ->booleanNode('install_development_dependencies')->end()
-                ->enumNode('format')->values(['console', 'markdown', 'github-actions'])->end()
+                ->append($this->getSymfonyOptionsDefinition('common'))
+                ->append($this->getCommandOptionsDefinition('assert_backwards_compatible'))
             ->end()
+        ;
+    }
+
+    private function getCommandOptionsDefinition(string $rootName): ArrayNodeDefinition
+    {
+        $treeBuilder = new TreeBuilder($rootName);
+
+        $rootNode = $treeBuilder->getRootNode();
+
+        $children = $rootNode->children();
+
+        $this->addSymfonyOptionDefinitions($children);
+        $this->addCommandOptionsDefinition($children);
+
+        $children->end();
+
+        return $rootNode;
+    }
+
+    private function addCommandOptionsDefinition(NodeBuilder $nodeBuilder): void
+    {
+        $nodeBuilder
+            ->stringNode('from')->end()
+            ->stringNode('to')->end()
+            ->booleanNode('install_development_dependencies')->end()
+            ->enumNode('format')->values(['console', 'markdown', 'github-actions'])->end()
         ;
     }
 }
