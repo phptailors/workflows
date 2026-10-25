@@ -62,6 +62,9 @@ return $config
             ],
         ],
 
+        // We use multi-level indentation, which is not supported by php-cs-fixer
+        'method_chaining_indentation' => false,
+
         // 2026-03-20: php-cs-fixed changed the @PhPCsFixer rulesets
         // significantly between 3.54 and 3.94; for now we're disabling the
         // following rules to avoid huge code reformatting being made by the

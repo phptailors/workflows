@@ -66,7 +66,7 @@ final class PhpCsFixerConfig extends AbstractScriptConfig
                     'xml', '@auto,xml',
                 ])->end()
                 ->booleanNode('stop_on_violation')->end()
-                ->booleanNode('show_progress')->end()
+                ->enumNode('show_progress')->values(['bar', 'dots', 'none'])->end()
                 ->booleanNode('sequential')->end()
             ->end()
         ;

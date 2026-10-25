@@ -44,12 +44,12 @@ final class BackwardCompatibilityCheckConfig extends AbstractScriptConfig
         return $rootNode
             ->addDefaultsIfNotSet()
             ->children()
-            ->booleanNode('no_interactions')->defaultTrue()->end()
-            ->booleanNode('ansi')->defaultTrue()->end()
-            ->stringNode('from')->end()
-            ->stringNode('to')->end()
-            ->booleanNode('install_development_dependencies')->end()
-            ->enumNode('format')->values(['console', 'markdown', 'github-actions'])->end()
+                ->booleanNode('no_interactions')->defaultTrue()->end()
+                ->booleanNode('ansi')->defaultTrue()->end()
+                ->stringNode('from')->end()
+                ->stringNode('to')->end()
+                ->booleanNode('install_development_dependencies')->end()
+                ->enumNode('format')->values(['console', 'markdown', 'github-actions'])->end()
             ->end()
         ;
     }

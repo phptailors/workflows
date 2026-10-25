@@ -35,10 +35,14 @@ final class PhpCsFixerConfigTest extends TestCase
     {
         $processor = new Processor();
         $config = new PhpCsFixerConfig();
-        $processedConfig = $processor->processConfiguration($config, $inputs);
+
+        try {
+            $processedConfig = $processor->processConfiguration($config, $inputs);
+        } catch (InvalidConfigurationException $exception) {
+            $this->fail("Invalid configuration. ".$exception->getMessage());
+        }
 
         $expect = \array_replace_recursive(self::configDefaults(), $expect);
-
         $this->assertRecursivelyKsortedArrayIdenticalTo($expect, $processedConfig);
     }
 
@@ -303,18 +307,18 @@ final class PhpCsFixerConfigTest extends TestCase
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
-            'inputs' => [['options' => ['show_progress' => null]]],
-            'expect' => ['options' => ['show_progress' => true]],
+            'inputs' => [['options' => ['show_progress' => 'bar']]],
+            'expect' => ['options' => ['show_progress' => 'bar']],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
-            'inputs' => [['options' => ['show_progress' => false]]],
-            'expect' => ['options' => ['show_progress' => false]],
+            'inputs' => [['options' => ['show_progress' => 'dots']]],
+            'expect' => ['options' => ['show_progress' => 'dots']],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
-            'inputs' => [['options' => ['show_progress' => true]]],
-            'expect' => ['options' => ['show_progress' => true]],
+            'inputs' => [['options' => ['show_progress' => 'none']]],
+            'expect' => ['options' => ['show_progress' => 'none']],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
@@ -434,8 +438,13 @@ final class PhpCsFixerConfigTest extends TestCase
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['options' => ['show_progress' => null]]],
+            'expect' => '/The value (of type "null"|null) is not allowed for path "php_cs_fixer\.options\.show_progress"/',
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['show_progress' => 'FOO']]],
-            'expect' => '/Invalid type for path "php_cs_fixer\.options\.show_progress"\. Expected "bool", but got "string"/',
+            'expect' => '/The value "FOO" is not allowed for path "php_cs_fixer\.options\.show_progress"/',
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
@@ -463,5 +472,4 @@ final class PhpCsFixerConfigTest extends TestCase
             'arguments' => [],
         ];
     }
-
 }

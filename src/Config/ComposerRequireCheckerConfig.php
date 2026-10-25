@@ -44,13 +44,13 @@ final class ComposerRequireCheckerConfig extends AbstractScriptConfig
         return $rootNode
             ->addDefaultsIfNotSet()
             ->children()
-            ->booleanNode('no_interactions')->defaultTrue()->end()
-            ->booleanNode('ansi')->defaultTrue()->end()
-            ->booleanNode('silent')->end()
-            ->booleanNode('quiet')->end()
-            ->booleanNode('ignore_parse_errors')->end()
-            ->enumNode('output')->values(['text', 'json'])->end()
-            ->stringNode('config_file')->end()
+                ->booleanNode('no_interactions')->defaultTrue()->end()
+                ->booleanNode('ansi')->defaultTrue()->end()
+                ->booleanNode('silent')->end()
+                ->booleanNode('quiet')->end()
+                ->booleanNode('ignore_parse_errors')->end()
+                ->enumNode('output')->values(['text', 'json'])->end()
+                ->stringNode('config_file')->end()
             ->end()
         ;
     }

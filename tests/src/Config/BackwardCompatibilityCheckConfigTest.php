@@ -35,7 +35,14 @@ final class BackwardCompatibilityCheckConfigTest extends TestCase
     {
         $processor = new Processor();
         $config = new BackwardCompatibilityCheckConfig();
-        $processedConfig = $processor->processConfiguration($config, $inputs);
+
+        try {
+            $processedConfig = $processor->processConfiguration($config, $inputs);
+        } catch (InvalidConfigurationException $exception) {
+            $this->fail("Invalid configuration. ".$exception->getMessage());
+        }
+
+        $expect = \array_replace_recursive(self::configDefaults(), $expect);
         $this->assertRecursivelyKsortedArrayIdenticalTo($expect, $processedConfig);
     }
 
@@ -59,123 +66,114 @@ final class BackwardCompatibilityCheckConfigTest extends TestCase
      */
     public static function provideWithValidConfig(): iterable
     {
-        $defaults = [
-            'script'    => 'roave-backward-compatibility-check',
-            'options'   => [
-                'no_interactions' => true,
-                'ansi'            => true,
-            ],
-            'arguments' => [],
-        ];
-
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [[]],
-            'expect' => $defaults,
+            'expect' => [],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['script' => 'FOO']],
-            'expect' => \array_merge($defaults, ['script' => 'FOO']),
+            'expect' => ['script' => 'FOO'],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['script' => 'FOO'], ['script' => 'BAR']],
-            'expect' => \array_merge($defaults, ['script' => 'BAR']),
+            'expect' => ['script' => 'BAR'],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['command' => 'roave-backwards-compatibility-check:assert-backwards-compatible']],
-            'expect' => \array_merge($defaults, ['command' => 'roave-backwards-compatibility-check:assert-backwards-compatible']),
+            'expect' => ['command' => 'roave-backwards-compatibility-check:assert-backwards-compatible'],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => []]],
-            'expect' => $defaults,
+            'expect' => [],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['no_interactions' => null]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['no_interactions' => true]]),
+            'expect' => ['options' => ['no_interactions' => true]],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['no_interactions' => true]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['no_interactions' => true]]),
+            'expect' => ['options' => ['no_interactions' => true]],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['no_interactions' => false]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['no_interactions' => false]]),
+            'expect' => ['options' => ['no_interactions' => false]],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['ansi' => null]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['ansi' => true]]),
+            'expect' => ['options' => ['ansi' => true]],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['ansi' => true]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['ansi' => true]]),
+            'expect' => ['options' => ['ansi' => true]],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['ansi' => false]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['ansi' => false]]),
+            'expect' => ['options' => ['ansi' => false]],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['from' => null]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['from' => '']]),
+            'expect' => ['options' => ['from' => '']],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['from' => 'FOO']]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['from' => 'FOO']]),
+            'expect' => ['options' => ['from' => 'FOO']],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['to' => null]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['to' => '']]),
+            'expect' => ['options' => ['to' => '']],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['to' => 'FOO']]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['to' => 'FOO']]),
+            'expect' => ['options' => ['to' => 'FOO']],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['install_development_dependencies' => null]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['install_development_dependencies' => true]]),
+            'expect' => ['options' => ['install_development_dependencies' => true]],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['install_development_dependencies' => true]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['install_development_dependencies' => true]]),
+            'expect' => ['options' => ['install_development_dependencies' => true]],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['install_development_dependencies' => false]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['install_development_dependencies' => false]]),
+            'expect' => ['options' => ['install_development_dependencies' => false]],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['format' => 'console']]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['format' => 'console']]),
+            'expect' => ['options' => ['format' => 'console']],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['format' => 'markdown']]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['format' => 'markdown']]),
+            'expect' => ['options' => ['format' => 'markdown']],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['format' => 'github-actions']]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['format' => 'github-actions']]),
+            'expect' => ['options' => ['format' => 'github-actions']],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['format' => 'github-actions']]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['format' => 'github-actions']]),
+            'expect' => ['options' => ['format' => 'github-actions']],
         ];
     }
 
@@ -232,6 +230,25 @@ final class BackwardCompatibilityCheckConfigTest extends TestCase
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['format' => 123]]],
             'expect' => '/The value 123 is not allowed for path "backward_compatibility_check\.options\.format"\./',
+        ];
+    }
+
+    /**
+     * @psalm-return array{
+     *      srcipt: string,
+     *      options: array<string,mixed>,
+     *      arguments: list<string>
+     * }
+     */
+    private static function configDefaults(): array
+    {
+        return [
+            'script'    => 'roave-backward-compatibility-check',
+            'options'   => [
+                'no_interactions' => true,
+                'ansi'            => true,
+            ],
+            'arguments' => [],
         ];
     }
 }

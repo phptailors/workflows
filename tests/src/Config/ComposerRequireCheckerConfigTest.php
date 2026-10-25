@@ -35,7 +35,14 @@ final class ComposerRequireCheckerConfigTest extends TestCase
     {
         $processor = new Processor();
         $config = new ComposerRequireCheckerConfig();
-        $processedConfig = $processor->processConfiguration($config, $inputs);
+
+        try {
+            $processedConfig = $processor->processConfiguration($config, $inputs);
+        } catch (InvalidConfigurationException $exception) {
+            $this->fail("Invalid configuration. ".$exception->getMessage());
+        }
+
+        $expect = \array_replace_recursive(self::configDefaults(), $expect);
         $this->assertRecursivelyKsortedArrayIdenticalTo($expect, $processedConfig);
     }
 
@@ -59,113 +66,104 @@ final class ComposerRequireCheckerConfigTest extends TestCase
      */
     public static function provideWithValidConfig(): iterable
     {
-        $defaults = [
-            'script'    => 'composer-require-checker',
-            'options'   => [
-                'no_interactions' => true,
-                'ansi'            => true,
-            ],
-            'arguments' => [],
-        ];
-
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [[]],
-            'expect' => $defaults,
+            'expect' => [],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['script' => 'FOO']],
-            'expect' => \array_merge($defaults, ['script' => 'FOO']),
+            'expect' => ['script' => 'FOO'],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['script' => 'FOO'], ['script' => 'BAR']],
-            'expect' => \array_merge($defaults, ['script' => 'BAR']),
+            'expect' => ['script' => 'BAR'],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['command' => 'check']],
-            'expect' => \array_merge($defaults, ['command' => 'check']),
+            'expect' => ['command' => 'check'],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => []]],
-            'expect' => $defaults,
+            'expect' => [],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['no_interactions' => null]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['no_interactions' => true]]),
+            'expect' => ['options' => ['no_interactions' => true]],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['no_interactions' => true]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['no_interactions' => true]]),
+            'expect' => ['options' => ['no_interactions' => true]],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['no_interactions' => false]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['no_interactions' => false]]),
+            'expect' => ['options' => ['no_interactions' => false]],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['ansi' => null]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['ansi' => true]]),
+            'expect' => ['options' => ['ansi' => true]],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['ansi' => false]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['ansi' => false]]),
+            'expect' => ['options' => ['ansi' => false]],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['ansi' => true]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['ansi' => true]]),
+            'expect' => ['options' => ['ansi' => true]],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['silent' => null]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['silent' => true]]),
+            'expect' => ['options' => ['silent' => true]],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['silent' => false]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['silent' => false]]),
+            'expect' => ['options' => ['silent' => false]],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['silent' => true]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['silent' => true]]),
+            'expect' => ['options' => ['silent' => true]],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['quiet' => null]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['quiet' => true]]),
+            'expect' => ['options' => ['quiet' => true]],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['quiet' => false]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['quiet' => false]]),
+            'expect' => ['options' => ['quiet' => false]],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['quiet' => true]]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['quiet' => true]]),
+            'expect' => ['options' => ['quiet' => true]],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['output' => 'text']]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['output' => 'text']]),
+            'expect' => ['options' => ['output' => 'text']],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['output' => 'json']]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['output' => 'json']]),
+            'expect' => ['options' => ['output' => 'json']],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['config_file' => 'composer-require-checker.json']]],
-            'expect' => \array_replace_recursive($defaults, ['options' => ['config_file' => 'composer-require-checker.json']]),
+            'expect' => ['options' => ['config_file' => 'composer-require-checker.json']],
         ];
     }
 
@@ -232,6 +230,25 @@ final class ComposerRequireCheckerConfigTest extends TestCase
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['config_file' => 123]]],
             'expect' => '/Invalid type for path "composer_require_checker\.options\.config_file"\. Expected "string", but got "int"\./',
+        ];
+    }
+
+    /**
+     * @psalm-return array{
+     *      srcipt: string,
+     *      options: array<string,mixed>,
+     *      arguments: list<string>
+     * }
+     */
+    private static function configDefaults(): array
+    {
+        return [
+            'script'    => 'composer-require-checker',
+            'options'   => [
+                'no_interactions' => true,
+                'ansi'            => true,
+            ],
+            'arguments' => [],
         ];
     }
 }
