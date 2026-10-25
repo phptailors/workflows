@@ -30,13 +30,13 @@ php_cs_fixer:
     path_mode: null                     # Specify path mode (can be `override` or `intersection`). [default: "override"]
     allow_risky: null                   # Are risky fixers allowed (can be `yes` or `no`).
     config: null                        # The path to a config file.
-    rules: null                         # List of rules that should be run against configured paths.
+    rules: []                           # List of rules that should be run against configured paths.
     using_cache: null                   # Should cache be used (can be `yes` or `no`).
-    allow_unsupported-php-version: null # Should the command refuse to run on unsupported PHP version (can be `yes` or `no`).
+    allow_unsupported_php_version: null # Should the command refuse to run on unsupported PHP version (can be `yes` or `no`).
     cache_file: null                    # The path to the cache file.
     diff: null                          # Prints diff for each file.
     format: null                        # To output results in other formats (can be `@auto`, `@auto,txt`, `checkstyle`, `gitlab`, `json`, `junit`, `txt` or `xml`).
-    stop_on-violation: null             # Stop execution on first violation.
+    stop_on_violation: null             # Stop execution on first violation.
     show_progress: null                 # Type of progress indicator (can be `bar`, `dots` or `none`).
     sequential: null                    # Enforce sequential analysis.
   arguments: null                       # Positional arguments (array)
@@ -91,9 +91,9 @@ phpunit:
     default_time_limit: null            # Timeout in seconds for tests without @small, @medium or @large
     disallow_todo_tests: null           # Disallow @todo_annotated tests
 
-    process-isolation: null             # Run each test in a separate PHP process
-    globals-backup: null                # Backup and restore $GLOBALS for each test
-    static-backup: null                 # Backup and restore static attributes for each test
+    process_isolation: null             # Run each test in a separate PHP process
+    globals_backup: null                # Backup and restore $GLOBALS for each test
+    static_backup: null                 # Backup and restore static attributes for each test
 
     colors: null                        # Use colors in output ("never", "auto" or "always")
     columns: null                       # Number of columns to use for progress output

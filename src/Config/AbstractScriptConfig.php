@@ -18,7 +18,7 @@ abstract class AbstractScriptConfig implements ConfigurationInterface
 {
     final public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('backward_compatibility_check');
+        $treeBuilder = new TreeBuilder($this->getRootNodeName());
 
         $rootNode = $treeBuilder->getRootNode();
 
@@ -33,6 +33,8 @@ abstract class AbstractScriptConfig implements ConfigurationInterface
      * @return list<string>
      */
     abstract protected function getSupportedScriptCommands(): array;
+
+    abstract protected function getRootNodeName(): string;
 
     abstract protected function getOptionsNode(): ArrayNodeDefinition;
 

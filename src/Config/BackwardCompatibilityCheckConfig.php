@@ -30,6 +30,11 @@ final class BackwardCompatibilityCheckConfig extends AbstractScriptConfig
         ];
     }
 
+    protected function getRootNodeName(): string
+    {
+        return 'backward_compatibility_check';
+    }
+
     protected function getOptionsNode(): ArrayNodeDefinition
     {
         $treeBuilder = new TreeBuilder('options');

@@ -30,6 +30,11 @@ final class ComposerRequireCheckerConfig extends AbstractScriptConfig
         ];
     }
 
+    protected function getRootNodeName(): string
+    {
+        return 'composer_require_checker';
+    }
+
     protected function getOptionsNode(): ArrayNodeDefinition
     {
         $treeBuilder = new TreeBuilder('options');

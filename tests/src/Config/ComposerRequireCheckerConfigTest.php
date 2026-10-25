@@ -176,62 +176,62 @@ final class ComposerRequireCheckerConfigTest extends TestCase
     {
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['script' => null]],
-            'expect' => '/"backward_compatibility_check\.script" cannot contain an empty value/',
+            'expect' => '/"composer_require_checker\.script" cannot contain an empty value/',
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['command' => null]],
-            'expect' => '/The value (of type "null"|null) is not allowed for path "backward_compatibility_check\.command"/',
+            'expect' => '/The value (of type "null"|null) is not allowed for path "composer_require_checker\.command"/',
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['command' => 'FOO']],
-            'expect' => '/The value "FOO" is not allowed for path "backward_compatibility_check\.command"/',
+            'expect' => '/The value "FOO" is not allowed for path "composer_require_checker\.command"/',
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['inexistent_option' => null]]],
-            'expect' => '/Unrecognized option "inexistent_option" under "backward_compatibility_check\.options"\./',
+            'expect' => '/Unrecognized option "inexistent_option" under "composer_require_checker\.options"\./',
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['no_interactions' => 'FOO']]],
-            'expect' => '/Invalid type for path "backward_compatibility_check\.options\.no_interactions"\. Expected "bool", but got "string"/',
+            'expect' => '/Invalid type for path "composer_require_checker\.options\.no_interactions"\. Expected "bool", but got "string"/',
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['ansi' => 'FOO']]],
-            'expect' => '/Invalid type for path "backward_compatibility_check\.options\.ansi"\. Expected "bool", but got "string"\./',
+            'expect' => '/Invalid type for path "composer_require_checker\.options\.ansi"\. Expected "bool", but got "string"\./',
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['silent' => 'FOO']]],
-            'expect' => '/Invalid type for path "backward_compatibility_check\.options\.silent"\. Expected "bool", but got "string"\./',
+            'expect' => '/Invalid type for path "composer_require_checker\.options\.silent"\. Expected "bool", but got "string"\./',
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['quiet' => 'FOO']]],
-            'expect' => '/Invalid type for path "backward_compatibility_check\.options\.quiet"\. Expected "bool", but got "string"\./',
+            'expect' => '/Invalid type for path "composer_require_checker\.options\.quiet"\. Expected "bool", but got "string"\./',
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['ignore_parse_errors' => 'FOO']]],
-            'expect' => '/Invalid type for path "backward_compatibility_check\.options\.ignore_parse_errors"\. Expected "bool", but got "string"\./',
+            'expect' => '/Invalid type for path "composer_require_checker\.options\.ignore_parse_errors"\. Expected "bool", but got "string"\./',
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['output' => 123]]],
-            'expect' => '/The value 123 is not allowed for path "backward_compatibility_check\.options\.output"\./',
+            'expect' => '/The value 123 is not allowed for path "composer_require_checker\.options\.output"\./',
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['output' => 'FOO']]],
-            'expect' => '/The value "FOO" is not allowed for path "backward_compatibility_check\.options\.output"\./',
+            'expect' => '/The value "FOO" is not allowed for path "composer_require_checker\.options\.output"\./',
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
             'inputs' => [['options' => ['config_file' => 123]]],
-            'expect' => '/Invalid type for path "backward_compatibility_check\.options\.config_file"\. Expected "string", but got "int"\./',
+            'expect' => '/Invalid type for path "composer_require_checker\.options\.config_file"\. Expected "string", but got "int"\./',
         ];
     }
 }
