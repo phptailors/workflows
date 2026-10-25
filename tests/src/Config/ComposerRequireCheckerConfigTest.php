@@ -39,7 +39,7 @@ final class ComposerRequireCheckerConfigTest extends TestCase
         try {
             $processedConfig = $processor->processConfiguration($config, $inputs);
         } catch (InvalidConfigurationException $exception) {
-            $this->fail("Invalid configuration. ".$exception->getMessage());
+            $this->fail('Invalid configuration. '.$exception->getMessage());
         }
 
         $expect = \array_replace_recursive(self::configDefaults(), $expect);
