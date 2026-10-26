@@ -11,9 +11,6 @@
 namespace Tailors\Console\Workflows\CommandOptions;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use Tailors\Console\Workflows\CommandOptions\AbstractCommandOptionsTestCase;
-use Tailors\Console\Workflows\CommandOptions\CommandOptionsDefinitionInterface;
-
 
 /**
  * @internal

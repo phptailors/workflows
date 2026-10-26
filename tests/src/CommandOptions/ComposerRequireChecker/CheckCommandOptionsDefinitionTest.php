@@ -16,7 +16,6 @@ use Tailors\Console\Workflows\CommandOptions\CommandOptionsDefinitionInterface;
 
 use function Tailors\Console\Workflows\providerCaseKey as pck;
 
-
 /**
  * @internal
  */

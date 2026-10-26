@@ -18,6 +18,7 @@ final class TestUtils
     public static function providerCaseKey(string $file, int $line, mixed ...$args): string
     {
         $argsAsStrings = array_map(fn (mixed $v): string => (string) $v, $args);
+
         return basename($file).':'.((string) $line).([] === $argsAsStrings ? '' : ' ('.implode(', ', $argsAsStrings).')');
     }
 }

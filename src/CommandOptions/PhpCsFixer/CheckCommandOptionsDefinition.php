@@ -12,6 +12,7 @@ namespace Tailors\Console\Workflows\CommandOptions\PhpCsFixer;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
+use Tailors\Console\Workflows\CommandOptions\CommandOptionSetter;
 use Tailors\Console\Workflows\CommandOptions\CommandOptionsDefinitionInterface;
 
 /**
@@ -25,7 +26,9 @@ final class CheckCommandOptionsDefinition implements CommandOptionsDefinitionInt
 {
     /**
      * @template TParent of ArrayNodeDefinition
+     *
      * @param NodeBuilder<TParent> $nodeBuilder
+     *
      * @return NodeBuilder<TParent>
      */
     public function addCommandOptionsDefinitions(NodeBuilder $nodeBuilder): NodeBuilder
@@ -53,6 +56,17 @@ final class CheckCommandOptionsDefinition implements CommandOptionsDefinitionInt
               ->booleanNode('stop_on_violation')->end()
               ->enumNode('show_progress')->values(['bar', 'dots', 'none'])->end()
               ->booleanNode('sequential')->end()
-          ;
+        ;
+    }
+
+    /**
+     * @param list<string>         $options
+     * @param array<string, mixed> $config
+     *
+     * @return list<string>
+     */
+    public function setCommandOptions(CommandOptionSetter $setter, array $options, array $config): array
+    {
+        return $options;
     }
 }

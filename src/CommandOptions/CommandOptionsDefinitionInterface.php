@@ -24,8 +24,18 @@ interface CommandOptionsDefinitionInterface
 {
     /**
      * @template TParent of ArrayNodeDefinition
+     *
      * @param NodeBuilder<TParent> $nodeBuilder
+     *
      * @return NodeBuilder<TParent>
      */
     public function addCommandOptionsDefinitions(NodeBuilder $nodeBuilder): NodeBuilder;
+
+    /**
+     * @param list<string>         $options
+     * @param array<string, mixed> $config
+     *
+     * @return list<string>
+     */
+    public function setCommandOptions(CommandOptionSetter $setter, array $options, array $config): array;
 }

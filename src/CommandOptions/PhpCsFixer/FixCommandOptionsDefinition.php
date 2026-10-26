@@ -12,6 +12,7 @@ namespace Tailors\Console\Workflows\CommandOptions\PhpCsFixer;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
+use Tailors\Console\Workflows\CommandOptions\CommandOptionSetter;
 use Tailors\Console\Workflows\CommandOptions\CommandOptionsDefinitionInterface;
 
 /**
@@ -23,11 +24,13 @@ use Tailors\Console\Workflows\CommandOptions\CommandOptionsDefinitionInterface;
  */
 final class FixCommandOptionsDefinition implements CommandOptionsDefinitionInterface
 {
-    public function __construct(private CheckCommandOptionsDefinition $checkCommandOptionsDefinition) { }
+    public function __construct(private CheckCommandOptionsDefinition $checkCommandOptionsDefinition) {}
 
     /**
      * @template TParent of ArrayNodeDefinition
+     *
      * @param NodeBuilder<TParent> $nodeBuilder
+     *
      * @return NodeBuilder<TParent>
      */
     public function addCommandOptionsDefinitions(NodeBuilder $nodeBuilder): NodeBuilder
@@ -39,5 +42,16 @@ final class FixCommandOptionsDefinition implements CommandOptionsDefinitionInter
         return $nodeBuilder
             ->booleanNode('dry_run')->end()
         ;
+    }
+
+    /**
+     * @param list<string>         $options
+     * @param array<string, mixed> $config
+     *
+     * @return list<string>
+     */
+    public function setCommandOptions(CommandOptionSetter $setter, array $options, array $config): array
+    {
+        return $options;
     }
 }

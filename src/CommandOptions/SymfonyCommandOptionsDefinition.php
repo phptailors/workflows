@@ -24,7 +24,9 @@ final class SymfonyCommandOptionsDefinition implements CommandOptionsDefinitionI
 {
     /**
      * @template TParent of ArrayNodeDefinition
+     *
      * @param NodeBuilder<TParent> $nodeBuilder
+     *
      * @return NodeBuilder<TParent>
      */
     public function addCommandOptionsDefinitions(NodeBuilder $nodeBuilder): NodeBuilder
@@ -39,41 +41,32 @@ final class SymfonyCommandOptionsDefinition implements CommandOptionsDefinitionI
     }
 
     /**
-     * @param list<string> $options
+     * @param list<string>         $options
      * @param array<string, mixed> $config
      *
-     * @psalm-param-out list<string> $options
+     * @return list<string>
      */
-    public function setCommandOptionsFromConfig(array &$options, array $config): void
+    public function setCommandOptions(CommandOptionSetter $setter, array $options, array $config): array
     {
-        if (is_bool($no_interactions = ($config['no_interactions'] ?? null))) {
-            self::setBooleanOption($options, '--no-interactions', $no_interactions);
+        foreach (
+            [
+                'no_interactions' => '--no-interactions',
+                'quiet' => '--quiet',
+                'silent' => '--silent',
+            ] as $key => $name) {
+            if (array_key_exists($key, $config) && in_array([true, false, null], $value = $config[$key], true)) {
+                $options = $setter->setBooleanFlag($options, $name, $value);
+            }
         }
-        //        if (true === ($config['no_interactions'] ?? null)) {
-        //            $options[] = '--no-interactions';
-        //        }
-        //
-        //        $ansi = $config['ansi'] ?? null;
-        //        if (true === $ansi) {
-        //            $options[] = '--ansi';
-        //        } elseif (false === $ansi) {
-        //            $options[] = '--no-ansi';
-        //        }
-        //
-        //        if (true === ($config['quiet'] ?? null)) {
-        //            $options[] = '--quiet';
-        //        }
-        //
-        //        if (true === ($config['silent'] ?? null)) {
-        //            $options[] = '--silent';
-        //        }
-        //
-        //        match ($config['verbose'] ?? null) {
-        //            true => ($options[] = '--verbose'),
-        //            1    => ($options[] = '-v'),
-        //            2    => ($options[] = '-vv'),
-        //            3    => ($options[] = '-vvv')
-        //        };
 
+        if (array_key_exists('ansi', $config) && in_array([true, false, null], $value = $config['ansi'], true)) {
+            $options = $setter->setBooleanFlag($options, '--ansi', $value, '--no-ansi');
+        }
+
+        if (array_key_exists('verbose', $config) && in_array([true, false, null, 1, 2, 3], $value = $config['verbose'], true)) {
+            $options = $setter->setLevelFlag($options, [1 => '-v', 2 => '-vv', 3 => '-vvv'], $value, '--verbose');
+        }
+
+        return $options;
     }
 }

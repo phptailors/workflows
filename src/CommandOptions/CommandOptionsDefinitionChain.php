@@ -25,11 +25,13 @@ final class CommandOptionsDefinitionChain implements CommandOptionsDefinitionInt
     /**
      * @param array<CommandOptionsDefinitionInterface> $commandOptionsDefinitions
      */
-    public function __construct(private array $commandOptionsDefinitions) { }
+    public function __construct(private array $commandOptionsDefinitions) {}
 
     /**
      * @template TParent of ArrayNodeDefinition
+     *
      * @param NodeBuilder<TParent> $nodeBuilder
+     *
      * @return NodeBuilder<TParent>
      */
     public function addCommandOptionsDefinitions(NodeBuilder $nodeBuilder): NodeBuilder
@@ -39,5 +41,20 @@ final class CommandOptionsDefinitionChain implements CommandOptionsDefinitionInt
         }
 
         return $nodeBuilder;
+    }
+
+    /**
+     * @param list<string>         $options
+     * @param array<string, mixed> $config
+     *
+     * @return list<string>
+     */
+    public function setCommandOptions(CommandOptionSetter $setter, array $options, array $config): array
+    {
+        foreach ($this->commandOptionsDefinitions as $commandOptionsDefinition) {
+            $options = $commandOptionsDefinition->setCommandOptions($setter, $options, $config);
+        }
+
+        return $options;
     }
 }

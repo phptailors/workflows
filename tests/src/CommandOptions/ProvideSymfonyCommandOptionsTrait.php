@@ -51,7 +51,7 @@ trait ProvideSymfonyCommandOptionsTrait
 
         yield pck(__FILE__, __LINE__) => [
             'inputs' => [['ansi' => true]],
-            'expect' => ['ansi' => true]
+            'expect' => ['ansi' => true],
         ];
 
         yield pck(__FILE__, __LINE__) => [
@@ -70,7 +70,7 @@ trait ProvideSymfonyCommandOptionsTrait
 
         yield pck(__FILE__, __LINE__) => [
             'inputs' => [['quiet' => true]],
-            'expect' => ['quiet' => true]
+            'expect' => ['quiet' => true],
         ];
 
         yield pck(__FILE__, __LINE__) => [
@@ -89,7 +89,7 @@ trait ProvideSymfonyCommandOptionsTrait
 
         yield pck(__FILE__, __LINE__) => [
             'inputs' => [['silent' => true]],
-            'expect' => ['silent' => true]
+            'expect' => ['silent' => true],
         ];
 
         yield pck(__FILE__, __LINE__) => [
@@ -103,7 +103,7 @@ trait ProvideSymfonyCommandOptionsTrait
 
         yield pck(__FILE__, __LINE__) => [
             'inputs' => [['verbose' => true]],
-            'expect' => ['verbose' => true]
+            'expect' => ['verbose' => true],
         ];
 
         yield pck(__FILE__, __LINE__) => [

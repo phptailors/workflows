@@ -12,6 +12,8 @@ namespace Tailors\Console\Workflows\CommandOptions\RoaveBackwardCompatibilityChe
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
+use Tailors\Console\Workflows\CommandOptions\BooleanFlagOption;
+use Tailors\Console\Workflows\CommandOptions\CommandOptionSetter;
 use Tailors\Console\Workflows\CommandOptions\CommandOptionsDefinitionInterface;
 
 /**
@@ -25,7 +27,9 @@ final class AssertBackwardsCompatibleCommandOptionsDefinition implements Command
 {
     /**
      * @template TParent of ArrayNodeDefinition
+     *
      * @param NodeBuilder<TParent> $nodeBuilder
+     *
      * @return NodeBuilder<TParent>
      */
     public function addCommandOptionsDefinitions(NodeBuilder $nodeBuilder): NodeBuilder
@@ -36,5 +40,30 @@ final class AssertBackwardsCompatibleCommandOptionsDefinition implements Command
             ->booleanNode('install_development_dependencies')->end()
             ->enumNode('format')->values(['console', 'markdown', 'github-actions'])->end()
         ;
+    }
+
+    /**
+     * @param list<string>         $options
+     * @param array<string, mixed> $config
+     *
+     * @return list<string>
+     */
+    public function setCommandOptions(CommandOptionSetter $setter, array $options, array $config): array
+    {
+
+        foreach (['from' => '--from', 'to' => '--to', 'format' => '--format'] as $key => $name) {
+            if (array_key_exists($key, $config) && is_string($value = $config[$key])) {
+                $options = $setter->setStringValue($options, $name, $value);
+            }
+        }
+
+        BooleanFlagOption::create('install_development_dependencies', null, $setter)->setOptionFromConfig($options, $config);
+        foreach (['install_development_dependencies' => '--install-development-dependencies'] as $key => $name) {
+            if (array_key_exists($key, $config) && in_array([true, false, null], $value = $config[$key], true)) {
+                $options = $setter->setBooleanFlag($options, $name, $value);
+            }
+        }
+
+        return $options;
     }
 }
