@@ -30,11 +30,11 @@ final class FixCommandOptionsDefinition implements CommandOptionsDefinitionInter
      * @param NodeBuilder<TParent> $nodeBuilder
      * @return NodeBuilder<TParent>
      */
-    public function addOptionsDefinitions(NodeBuilder $nodeBuilder): NodeBuilder
+    public function addCommandOptionsDefinitions(NodeBuilder $nodeBuilder): NodeBuilder
     {
         // According to docs: "php-cs-fixer check" == "php-cs-fixer fix --dry-run".
         // So, "check" command nas no --dry-run, but "fix" command should have it.
-        $nodeBuilder = $this->checkCommandOptionsDefinition->addOptionsDefinitions($nodeBuilder);
+        $nodeBuilder = $this->checkCommandOptionsDefinition->addCommandOptionsDefinitions($nodeBuilder);
 
         return $nodeBuilder
             ->booleanNode('dry_run')->end()

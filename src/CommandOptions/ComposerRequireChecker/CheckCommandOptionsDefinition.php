@@ -28,7 +28,7 @@ final class CheckCommandOptionsDefinition implements CommandOptionsDefinitionInt
      * @param NodeBuilder<TParent> $nodeBuilder
      * @return NodeBuilder<TParent>
      */
-    public function addOptionsDefinitions(NodeBuilder $nodeBuilder): NodeBuilder
+    public function addCommandOptionsDefinitions(NodeBuilder $nodeBuilder): NodeBuilder
     {
         return $nodeBuilder
             ->booleanNode('ignore_parse_errors')->end()

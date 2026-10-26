@@ -22,6 +22,9 @@ trait ProvideSymfonyCommandOptionsTrait
      */
     public static function provideValidSymfonyCommandOptions(): iterable
     {
+        //
+        // no_interactions
+        //
         yield pck(__FILE__, __LINE__) => [
             'inputs' => [['no_interactions' => null]],
             'expect' => ['no_interactions' => true],
@@ -37,6 +40,10 @@ trait ProvideSymfonyCommandOptionsTrait
             'expect' => ['no_interactions' => false],
         ];
 
+        //
+        // ansi
+        //
+
         yield pck(__FILE__, __LINE__) => [
             'inputs' => [['ansi' => null]],
             'expect' => ['ansi' => true],
@@ -50,6 +57,78 @@ trait ProvideSymfonyCommandOptionsTrait
         yield pck(__FILE__, __LINE__) => [
             'inputs' => [['ansi' => false]],
             'expect' => ['ansi' => false],
+        ];
+
+        //
+        // quiet
+        //
+
+        yield pck(__FILE__, __LINE__) => [
+            'inputs' => [['quiet' => null]],
+            'expect' => ['quiet' => true],
+        ];
+
+        yield pck(__FILE__, __LINE__) => [
+            'inputs' => [['quiet' => true]],
+            'expect' => ['quiet' => true]
+        ];
+
+        yield pck(__FILE__, __LINE__) => [
+            'inputs' => [['quiet' => false]],
+            'expect' => ['quiet' => false],
+        ];
+
+        //
+        // silent
+        //
+
+        yield pck(__FILE__, __LINE__) => [
+            'inputs' => [['silent' => null]],
+            'expect' => ['silent' => true],
+        ];
+
+        yield pck(__FILE__, __LINE__) => [
+            'inputs' => [['silent' => true]],
+            'expect' => ['silent' => true]
+        ];
+
+        yield pck(__FILE__, __LINE__) => [
+            'inputs' => [['silent' => false]],
+            'expect' => ['silent' => false],
+        ];
+
+        //
+        // verbose
+        //
+
+        yield pck(__FILE__, __LINE__) => [
+            'inputs' => [['verbose' => true]],
+            'expect' => ['verbose' => true]
+        ];
+
+        yield pck(__FILE__, __LINE__) => [
+            'inputs' => [['verbose' => false]],
+            'expect' => ['verbose' => false],
+        ];
+
+        yield pck(__FILE__, __LINE__) => [
+            'inputs' => [['verbose' => 0]],
+            'expect' => ['verbose' => 0],
+        ];
+
+        yield pck(__FILE__, __LINE__) => [
+            'inputs' => [['verbose' => 1]],
+            'expect' => ['verbose' => 1],
+        ];
+
+        yield pck(__FILE__, __LINE__) => [
+            'inputs' => [['verbose' => 2]],
+            'expect' => ['verbose' => 2],
+        ];
+
+        yield pck(__FILE__, __LINE__) => [
+            'inputs' => [['verbose' => 3]],
+            'expect' => ['verbose' => 3],
         ];
     }
 
@@ -65,7 +144,27 @@ trait ProvideSymfonyCommandOptionsTrait
 
         yield pck(__FILE__, __LINE__) => [
             'inputs' => [['ansi' => 'FOO']],
-            'expect' => '/Invalid type for path "options\.ansi"\. Expected "bool", but got "string"\./',
+            'expect' => '/Invalid type for path "options\.ansi"\. Expected "bool", but got "string"/',
+        ];
+
+        yield pck(__FILE__, __LINE__) => [
+            'inputs' => [['quiet' => 'FOO']],
+            'expect' => '/Invalid type for path "options\.quiet"\. Expected "bool", but got "string"/',
+        ];
+
+        yield pck(__FILE__, __LINE__) => [
+            'inputs' => [['silent' => 'FOO']],
+            'expect' => '/Invalid type for path "options\.silent"\. Expected "bool", but got "string"/',
+        ];
+
+        yield pck(__FILE__, __LINE__) => [
+            'inputs' => [['verbose' => null]],
+            'expect' => '/The value (of type "null"|null) is not allowed for path "options\.verbose"\. Permissible values: false, true, 0, 1, 2, 3\./',
+        ];
+
+        yield pck(__FILE__, __LINE__) => [
+            'inputs' => [['verbose' => 'FOO']],
+            'expect' => '/The value "FOO" is not allowed for path "options\.verbose"\. Permissible values: false, true, 0, 1, 2, 3\./',
         ];
     }
 }

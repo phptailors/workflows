@@ -13,7 +13,6 @@ namespace Tailors\Console\Workflows\CommandOptions;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
 use Tailors\PHPUnit\RecursivelyKsortedArrayIdenticalToTrait;
@@ -50,25 +49,19 @@ abstract class AbstractCommandOptionsTestCase extends TestCase
 
         $rootBuilder = $rootNode->children();
 
-        $this->assertSame($rootBuilder, static::getCommandOptionsDefinition()->addOptionsDefinitions($rootBuilder));
+        $this->assertSame($rootBuilder, static::getCommandOptionsDefinition()->addCommandOptionsDefinitions($rootBuilder));
 
         $rootBuilder->end();
 
-        $config = new class($treeBuilder) implements ConfigurationInterface {
-            public function __construct(private TreeBuilder $treeBuilder) {}
-            public function getConfigTreeBuilder(): TreeBuilder {
-                return $this->treeBuilder;
-            }
-        };
-
         try {
-            $processedConfig = $processor->processConfiguration($config, $inputs);
+            $processedConfig = $processor->process($treeBuilder->buildTree(), $inputs);
         } catch (InvalidConfigurationException $exception) {
             $this->fail('Invalid configuration. '.$exception->getMessage());
         }
 
         $expect = \array_replace_recursive(static::getCommandOptionsDefaults(), $expect);
-        $this->assertRecursivelyKsortedArrayIdenticalTo($expect, $processedConfig);
+
+        self::assertRecursivelyKsortedArrayIdenticalTo($expect, $processedConfig);
     }
 
     /**
@@ -85,21 +78,14 @@ abstract class AbstractCommandOptionsTestCase extends TestCase
 
         $rootBuilder = $rootNode->children();
 
-        $this->assertSame($rootBuilder, static::getCommandOptionsDefinition()->addOptionsDefinitions($rootBuilder));
+        $this->assertSame($rootBuilder, static::getCommandOptionsDefinition()->addCommandOptionsDefinitions($rootBuilder));
 
         $rootBuilder->end();
-
-        $config = new class($treeBuilder) implements ConfigurationInterface {
-            public function __construct(private TreeBuilder $treeBuilder) {}
-            public function getConfigTreeBuilder(): TreeBuilder {
-                return $this->treeBuilder;
-            }
-        };
 
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessageMatches($expect);
 
-        $processedConfig = $processor->processConfiguration($config, $inputs);
+        $processedConfig = $processor->process($treeBuilder->buildTree(), $inputs);
     }
 
     /**

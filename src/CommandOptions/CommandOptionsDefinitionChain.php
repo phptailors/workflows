@@ -32,10 +32,10 @@ final class CommandOptionsDefinitionChain implements CommandOptionsDefinitionInt
      * @param NodeBuilder<TParent> $nodeBuilder
      * @return NodeBuilder<TParent>
      */
-    public function addOptionsDefinitions(NodeBuilder $nodeBuilder): NodeBuilder
+    public function addCommandOptionsDefinitions(NodeBuilder $nodeBuilder): NodeBuilder
     {
         foreach ($this->commandOptionsDefinitions as $commandOptionsDefinition) {
-            $nodeBuilder = $commandOptionsDefinition->addOptionsDefinitions($nodeBuilder);
+            $nodeBuilder = $commandOptionsDefinition->addCommandOptionsDefinitions($nodeBuilder);
         }
 
         return $nodeBuilder;
