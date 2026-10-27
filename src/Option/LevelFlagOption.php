@@ -8,33 +8,23 @@
  * View the LICENSE file for full copyright and license information.
  */
 
-namespace Tailors\Console\Workflows\CommandOptions;
+namespace Tailors\Console\Workflows\Option;
 
 /**
  * @internal
  *
  * @psalm-internal Tailors\Console\Workflows
  */
-final class BooleanFlagOption extends AbstractCommandOption implements CommandOptionInterface
+final class LevelFlagOption extends AbstractCommandOption implements CommandOptionInterface
 {
     public static function create(
         string $configKey,
         ?string $optionName = null,
-        ?string $oppositeOptionName = null,
         CommandOptionSetterInterface $optionSetter = null
     ): BooleanFlagOption {
         $optionName ??= self::configKeyToOptionName($configKey);
         $optionSetter ??= new CommandOptionSetter();
-        return new self($configKey, $optionName, $optionSetter, $oppositeOptionName);
-    }
-
-    private function __construct(
-        string $configKey,
-        string $optionName,
-        CommandOptionSetterInterface $optionSetter,
-        private readonly string $oppositeOptionName
-    ) {
-        parent::__construct($configKey, $optionName, $optionSetter);
+        return new self($configKey, $optionName, $optionSetter);
     }
 
     /**
@@ -46,7 +36,7 @@ final class BooleanFlagOption extends AbstractCommandOption implements CommandOp
     public function setOptionFromConfig(array $options, array $config): array
     {
         if (array_key_exists($this->configKey, $config) && in_array([true, false, null], $value = $config[$this->configKey], true)) {
-            $options = $this->optionSetter->setBooleanFlag($options, $this->optionName, $value, $this->oppositeOptionName);
+            $options = $this->optionSetter->setBooleanFlag($options, $this->optionName, $value);
         }
 
         return $options;

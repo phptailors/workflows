@@ -8,14 +8,14 @@
  * View the LICENSE file for full copyright and license information.
  */
 
-namespace Tailors\Console\Workflows\CommandOptions;
+namespace Tailors\Console\Workflows\Option;
 
 /**
  * @internal
  *
  * @psalm-internal Tailors\Console\Workflows
  */
-interface CommandOptionInterface
+interface OptionInterface
 {
     /**
      * @param list<string> $options
