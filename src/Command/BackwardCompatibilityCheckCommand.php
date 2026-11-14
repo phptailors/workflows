@@ -24,7 +24,8 @@ use Tailors\Console\Workflows\Runner;
 
 #[AsCommand(
     name: 'run:backward-compatibility-check',
-    description: 'Run backward-compatibility-check'
+    description: 'Run backward-compatibility-check',
+    aliases: ['run:bcc']
 )]
 final class BackwardCompatibilityCheckCommand extends Command
 {
