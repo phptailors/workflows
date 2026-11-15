@@ -43,7 +43,7 @@ php_cs_fixer:
 
 phpunit:
   script: phpunit
-  options: null
+  options:
     # Code Coverage Options:
     coverage_clover: null               # Generate code coverage report in Clover XML format
     coverage_cobertura: null            # Generate code coverage report in Cobertura XML format

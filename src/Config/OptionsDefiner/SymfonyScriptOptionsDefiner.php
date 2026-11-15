@@ -28,6 +28,7 @@ final class SymfonyScriptOptionsDefiner implements OptionsDefinerInterface
             ->booleanNode('ansi')->defaultTrue()->end()
             ->booleanNode('silent')->end()
             ->booleanNode('quiet')->end()
+            ->integerNode('verbose')->min(0)->max(3)->end()
         ;
     }
 }
