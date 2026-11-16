@@ -49,14 +49,17 @@ final class PhpunitOptionsDefinerTest extends AbstractOptionsDefinerTestCase
     {
         return [
             'coverage_filter' => null,
+            'd' => null,
             'exclude_group' => null,
+            'exclude_testsuite' => null,
             'extensions' => null,
+            'group' => null,
             'include_path' => null,
-            'ini_set' => null,
             'order_by' => null,
             'test_suffix' => null,
             'testdox_exclude_group' => null,
             'testdox_group' => null,
+            'testsuite' => null,
         ];
     }
 

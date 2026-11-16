@@ -182,8 +182,23 @@ trait PhpunitOptionsProvidersTrait
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
-            'inputs' => [['testsuite' => 'loremipsum']],
-            'expect' => ['testsuite' => 'loremipsum'],
+            'inputs' => [['testsuite' => 'ts']],
+            'expect' => ['testsuite' => ['ts']],
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['testsuite' => ['ts1', 'ts2']]],
+            'expect' => ['testsuite' => ['ts1', 'ts2']],
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['exclude_testsuite' => 'ts']],
+            'expect' => ['exclude_testsuite' => ['ts']],
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['exclude_testsuite' => ['ts1', 'ts2']]],
+            'expect' => ['exclude_testsuite' => ['ts1', 'ts2']],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
@@ -197,8 +212,13 @@ trait PhpunitOptionsProvidersTrait
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
-            'inputs' => [['group' => 'loremipsum']],
-            'expect' => ['group' => 'loremipsum'],
+            'inputs' => [['group' => 'grp']],
+            'expect' => ['group' => ['grp']],
+        ];
+
+        yield basename(__FILE__).':'.__LINE__ => [
+            'inputs' => [['group' => ['grp1', 'grp2']]],
+            'expect' => ['group' => ['grp1', 'grp2']],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
@@ -848,13 +868,13 @@ trait PhpunitOptionsProvidersTrait
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
-            'inputs' => [['ini_set' => 'a=A']],
-            'expect' => ['ini_set' => ['a=A']],
+            'inputs' => [['d' => 'a=A']],
+            'expect' => ['d' => ['a=A']],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
-            'inputs' => [['ini_set' => ['a=A', 'b=B']]],
-            'expect' => ['ini_set' => ['a=A', 'b=B']],
+            'inputs' => [['d' => ['a=A', 'b=B']]],
+            'expect' => ['d' => ['a=A', 'b=B']],
         ];
 
         yield basename(__FILE__).':'.__LINE__ => [
@@ -1344,7 +1364,7 @@ trait PhpunitOptionsProvidersTrait
 //            ->arrayNode('include_path', 'include_dir')  // Prepend PHP's include_path with given path(s)
 //                ->stringPrototype()->end()
 //            ->end()
-//            ->arrayNode('ini_set')                      // -d <key[=value]> Sets a php.ini value
+//            ->arrayNode('d')                      // -d <key[=value]> Sets a php.ini value
 //                ->stringPrototype()->end()
 //            ->end()
 //            ->stringNode('cache_result_file')->end()    //  <10.0: Specify result cache path and filename
