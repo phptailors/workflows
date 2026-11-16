@@ -409,24 +409,24 @@ final class PhpunitOptionsDefiner implements OptionsDefinerInterface
     private function addCodeCoverageOptions(NodeBuilder $nodeBuilder): NodeBuilder
     {
         return $nodeBuilder
-            ->stringNode('coverage_clover')->end()      // Generate code coverage report in Clover XML format
-            ->stringNode('coverage_cobertura')->end()   // Generate code coverage report in Cobertura XML format
-            ->stringNode('coverage_openclover')->end()  // >=12.2: Writes the code coverage report in OpenClover XML format to the specified file
-            ->stringNode('coverage_crap4j')->end()      // Generate code coverage report in Crap4J XML format
-            ->stringNode('coverage_html')->end()        // Generate code coverage report in HTML format
-            ->stringNode('coverage_php')->end()         // Export PHP_CodeCoverage object to file
-            ->stringNode('coverage_text')->end()        // Generate code coverage report in text format [default: standard output]
-            ->stringNode('coverage_xml')->end()         // Generate code coverage report in PHPUnit XML format in this dir
-            ->stringNode('coverage_cache')->end()       //  <10.0: Cache static analysis results in this dir
-            ->booleanNode('warm_coverage_cache')->end() // Warm static analysis cache
-            ->arrayNode('coverage_filter')              // Include <dir> in code coverage analysis
+            ->stringNode('coverage_clover')->end()          // Generate code coverage report in Clover XML format
+            ->stringNode('coverage_cobertura')->end()       // Generate code coverage report in Cobertura XML format
+            ->stringNode('coverage_openclover')->end()      // >=12.2: Writes the code coverage report in OpenClover XML format to the specified file
+            ->stringNode('coverage_crap4j')->end()          // Generate code coverage report in Crap4J XML format
+            ->stringNode('coverage_html')->end()            // Generate code coverage report in HTML format
+            ->stringNode('coverage_php')->end()             // Export PHP_CodeCoverage object to file
+            ->stringNode('coverage_text')->end()            // Generate code coverage report in text format [default: standard output]
+            ->stringNode('coverage_xml')->end()             // Generate code coverage report in PHPUnit XML format in this dir
+            ->stringNode('coverage_cache')->end()           //  <10.0: Cache static analysis results in this dir
+            ->booleanNode('warm_coverage_cache')->end()     // Warm static analysis cache
+            ->arrayNode('coverage_filter')                  // Include <dir> in code coverage analysis
                 ->defaultNull()
                 ->beforeNormalization()->castToArray()->end()
                 ->stringPrototype()->end()
             ->end()
-            ->booleanNode('path_coverage')->end()       // Perform path coverage analysis
+            ->booleanNode('path_coverage')->end()           // Perform path coverage analysis
             ->booleanNode('disable_coverage_ignore')->end() // Disable annotations for ignoring code coverage
-            ->booleanNode('no_coverage')->end()         // Ignore code coverage configuration
+            ->booleanNode('no_coverage')->end()             // Ignore code coverage configuration
         ;
     }
 
